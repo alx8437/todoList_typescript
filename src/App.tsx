@@ -62,14 +62,10 @@ function App() {
     }
 
     function changeTaskStatus(taskId: string, isDone: boolean, todoListId: string) {
-        const newTodolistTasks = tasks[todoListId].map(t => {
-            if (t.id === taskId) {
-                return {...t, isDone: isDone}
-            }
-            return t
-        })
+        const newTodolistTasks = tasks[todoListId].map(t =>
+            t.id === taskId ? {...t, isDone: isDone} : t
+        )
         setTasks({...tasks, [todoListId]: newTodolistTasks})
-
     }
 
     function removeTodoList(todolistId: string) {
@@ -83,6 +79,19 @@ function App() {
         setTasks({...tasks, [newTodoList.id]: []})
     }
 
+    function changeTaskTitle(todolistId: string, taskId: string, title: string) {
+        const changedTasks = tasks[todolistId].map(t =>
+            t.id === taskId ? {...t, title} : t
+        )
+        setTasks({...tasks, [todolistId]: changedTasks})
+    }
+
+    function onChangeTodolistTitle(todolistId: string, title: string) {
+        const newTodolists = todolists.map(tl =>
+            tl.id === todolistId ? {...tl, title} : tl
+        )
+        setTodolists(newTodolists)
+    }
 
     return (
         <div className="App">
@@ -112,6 +121,8 @@ function App() {
                         changeTaskStatus={changeTaskStatus}
                         filter={tl.filter}
                         removeTodoList={removeTodoList}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTodolistTitle={onChangeTodolistTitle}
                     />
                 })
             }
