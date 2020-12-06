@@ -8,7 +8,7 @@ import {Menu} from "@material-ui/icons";
 
 
 export type FilterValuesType = "all" | "active" | "completed"
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -34,7 +34,6 @@ function App() {
             filter: "all"
         }
     ])
-
     let [tasks, setTasks] = useState<TasksStateType>({
         [todoListId1]: [
             {id: v1(), title: "React", isDone: true},
