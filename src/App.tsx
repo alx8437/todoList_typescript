@@ -8,13 +8,13 @@ import {Menu} from "@material-ui/icons";
 
 
 export type FilterValuesType = "all" | "active" | "completed"
-export type TodoListType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
 }
 
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
@@ -22,7 +22,7 @@ function App() {
     const todoListId1 = v1()
     const todoListId2 = v1()
 
-    let [todolists, setTodolists] = useState<Array<TodoListType>>([
+    let [todolists, setTodolists] = useState<Array<TodolistType>>([
         {
             id: todoListId1,
             title: "What to learn",
@@ -44,7 +44,6 @@ function App() {
             {id: v1(), title: "Rest API", isDone: false}
         ]
     });
-
 
     function removeTask(id: string, todoListId: string) {
         const newTodolistTasks = tasks[todoListId].filter(t => t.id !== id)
@@ -76,7 +75,7 @@ function App() {
     }
 
     function addTodoList(title: string) {
-        const newTodoList: TodoListType = {id: v1(), title, filter: "all"}
+        const newTodoList: TodolistType = {id: v1(), title, filter: "all"}
         setTodolists([newTodoList, ...todolists])
         setTasks({...tasks, [newTodoList.id]: []})
     }
