@@ -15,7 +15,6 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState, acti
         case TODOLIST_ACTIONS_TYPE.REMOVE_TODOLIST:
             return state.filter(tl => tl.id !== action.id)
         case TODOLIST_ACTIONS_TYPE.ADD_TODOLIST:
-            debugger
             const newTodoList: TodolistType = {id: action.id, title: action.title, filter: "all"}
             return [
                 ...state,
