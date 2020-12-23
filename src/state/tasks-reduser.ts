@@ -1,14 +1,14 @@
 import {TasksStateType} from "../App";
 import {
-    AllTaskActionTypes,
-    RemoveTaskActionType,
-    TASKS_ACTIONS_TYPE,
     AddTaskActionType,
+    AllTaskActionTypes,
     ChangeTaskStatusActionType,
-    ChangeTaskTitleActionType
+    ChangeTaskTitleActionType,
+    RemoveTaskActionType,
+    TASKS_ACTIONS_TYPE
 } from "./tasksActionsTypes";
 import {TODOLIST_ACTIONS_TYPE} from "./todolistsActionsTypes";
-import {v1} from "uuid";
+import { v1 } from "uuid";
 
 
 export const tasksReducer = (state: TasksStateType, action: AllTaskActionTypes): TasksStateType => {
@@ -62,7 +62,7 @@ export const addTaskAC = (title: string, todolistId: string): AddTaskActionType 
         type: TASKS_ACTIONS_TYPE.ADD_TASK,
         title,
         todolistId,
-        taskId: 'v1()'
+        taskId: v1(),
     }
 }
 
@@ -75,7 +75,7 @@ export const changeTaskStatusAC = (taskId: string, status: boolean, todolistId: 
     }
 }
 
-export const changeTaskAC = (todolistId: string, taskId: string, title: string): ChangeTaskTitleActionType => {
+export const changeTaskTitleAC = (todolistId: string, taskId: string, title: string): ChangeTaskTitleActionType => {
     return {
         type: TASKS_ACTIONS_TYPE.CHANGE_TASK_TITLE,
         todolistId,

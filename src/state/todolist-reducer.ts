@@ -25,6 +25,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: AllTodolist
                 )
             ]
         case TODOLIST_ACTIONS_TYPE.CHANGE_TODOLIST_FILTER:
+            debugger
             return [
                 ...state.map(tl =>
                     (tl.id === action.id) ? {...tl, filter: action.filter} : tl
