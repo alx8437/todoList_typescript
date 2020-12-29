@@ -1,4 +1,4 @@
-import {FilterValuesType} from "../App";
+import {FilterValuesType} from "../AppWithRedux";
 
 export enum TODOLIST_ACTIONS_TYPE {
     REMOVE_TODOLIST = 'App/REMOVE_TODOLIST',

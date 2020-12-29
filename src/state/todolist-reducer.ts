@@ -1,4 +1,3 @@
-import {FilterValuesType, TodolistType} from "../App"
 import {v1} from "uuid";
 import {
     TODOLIST_ACTIONS_TYPE,
@@ -7,6 +6,7 @@ import {
     ChangeTodoListTitleActionType,
     RemoveTodoListActionType,
 } from "./todolistsActionsTypes";
+import { FilterValuesType, TodolistType } from "../AppWithRedux";
 
 const initialState: Array<TodolistType> = [];
 
