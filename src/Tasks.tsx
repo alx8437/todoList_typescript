@@ -1,7 +1,7 @@
 import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@material-ui/icons";
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import {TaskType} from "./TodoList";
 
 type TaskPropsType = {
@@ -13,27 +13,33 @@ type TaskPropsType = {
 
 }
 
-const Task = (props: TaskPropsType) => {
-    const onClickHandler = () => props.removeTask(props.task.id, props.todolistId)
+const Task: React.FC<TaskPropsType> = React.memo(({
+                                                      removeTask,
+                                                      task,
+                                                      todolistId,
+                                                      changeTaskStatus,
+                                                      changeTaskTitle,
+                                                  }) => {
+    const onClickHandler = () => removeTask(task.id, todolistId)
     const onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
         const newIsDoneStatus = e.currentTarget.checked;
-        props.changeTaskStatus(props.task.id, newIsDoneStatus, props.todolistId)
+        changeTaskStatus(task.id, newIsDoneStatus, todolistId)
     }
-    const onChangeTaskTitle = (title: string) => {
-        props.changeTaskTitle(props.todolistId, props.task.id, title)
-    }
+    const onChangeTaskTitle = useCallback((title: string) => {
+        changeTaskTitle(todolistId, task.id, title)
+    }, [changeTaskTitle, todolistId, task.id])
 
-    return <div key={props.task.id} className={props.task.isDone ? "is-done" : ""}>
+    return <div key={task.id} className={task.isDone ? "is-done" : ""}>
         <Checkbox
             color={"primary"}
-            checked={props.task.isDone}
+            checked={task.isDone}
             onChange={onChangeStatus}
         />
-        <EditableSpan onChange={onChangeTaskTitle} title={props.task.title}/>
+        <EditableSpan onChange={onChangeTaskTitle} title={task.title}/>
         <IconButton onClick={onClickHandler}>
             <Delete />
         </IconButton>
     </div>
-}
+})
 
 export default Task;

@@ -6,9 +6,7 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm = React.memo((props: AddItemFormPropsType) =>  {
-
-    console.log("AddItemForm called!!!")
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem}) =>  {
 
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
@@ -21,14 +19,14 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) =>  {
             setError(null)
         }
         if (e.key === "Enter") {
-            addItem();
+            appendItem();
             setTitle("");
         }
     }
 
-    const addItem = () => {
+    const appendItem = () => {
         if (title.trim() !== '') {
-            props.addItem(title.trim());
+            addItem(title.trim());
             setTitle("")
         } else {
             setError("Title is required")
@@ -46,7 +44,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) =>  {
         />
         <IconButton
             color="primary"
-            onClick={addItem}>
+            onClick={appendItem}>
             <AddBox/>
         </IconButton>
     </div>
