@@ -8,7 +8,7 @@ import {
 } from "./tasksActionsTypes";
 import {TODOLIST_ACTIONS_TYPE} from "./todolistsActionsTypes";
 import { v1 } from "uuid";
-import {TasksStateType} from "../AppWithRedux";
+import { TasksStateType } from "../TodoList";
 
 const initialState: TasksStateType = {};
 
