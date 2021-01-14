@@ -3,8 +3,11 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {FilterValuesType} from "./AppWithRedux";
 import Task from "./Tasks";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
+import {addTaskAC} from "./state/tasks-reduser";
+import {changeTodolistFilterAC, removeTodolistAC, changeTodolistTitleAC} from "./state/todolist-reducer";
 
 
 export type TaskType = {
@@ -13,33 +16,24 @@ export type TaskType = {
     isDone: boolean
 }
 
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}
+
 type TodoListPropsType = {
     id: string
     title: string
     filter: string
-    tasks: Array<TaskType>
-    removeTask: (taskId: string, todoListId: string) => void
-    changeFilter: (todoListId: string, value: FilterValuesType) => void
-    addTask: (title: string, todoListId: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
-    removeTodoList: (todolistId: string) => void
-    changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
-    changeTodolistTitle: (todolistId: string, title: string) => void
 }
 
 export const TodoList: React.FC<TodoListPropsType> = React.memo(({
                                                                      id,
                                                                      title,
                                                                      filter,
-                                                                     tasks,
-                                                                     removeTask,
-                                                                     changeFilter,
-                                                                     addTask,
-                                                                     changeTaskStatus,
-                                                                     removeTodoList,
-                                                                     changeTaskTitle,
-                                                                     changeTodolistTitle,
                                                                  }) => {
+    const dispatch = useDispatch();
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
+
     const tasksFilter = useCallback((tasks: Array<TaskType>, filter: string): Array<TaskType> => {
         switch (filter) {
             case "active": return  tasks.filter(t => !t.isDone);
@@ -48,48 +42,47 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({
             default: return tasks;
         }
     }, [])
-    const tasksForTodoList = tasksFilter(tasks, filter)
 
-    const onAllClickHandler = useCallback(() => {
-        changeFilter(id, "all");
-    }, [changeFilter, id]);
-    const onActiveClickHandler = useCallback(() => {
-        changeFilter(id, "active")
-    }, [changeFilter, id]);
-    const onCompletedClickHandler = useCallback(() => {
-        changeFilter(id, "completed")
-    }, [changeFilter, id]);
+    const tasksForTodoList = tasksFilter(tasks[id], filter)
 
-    const deleteTodoList = () => {
-        removeTodoList(id)
+    const onAllClickHandler = () => {
+        dispatch(changeTodolistFilterAC(id, "all"));
+    }
+    const onActiveClickHandler = () => {
+        dispatch(changeTodolistFilterAC(id, "active"));
+    }
+    const onCompletedClickHandler = () => {
+        dispatch(changeTodolistFilterAC(id, "completed"));
     }
 
-    const appendTask = useCallback((title: string) => {
-        addTask(title, id);
-    }, [addTask, id]);
+    const removeTodoList = () => {
+        dispatch(removeTodolistAC(id))
+    }
 
-    const exchangeTodolistTitle = useCallback((title: string) => {
-        changeTodolistTitle(id, title)
-    }, [changeTodolistTitle, id])
+
+    const addTask = (title: string) => {
+        dispatch(addTaskAC(title, id))
+    }
+
+    const changeTodolistTitle = (title: string) => {
+        dispatch(changeTodolistTitleAC(id, title))
+    }
 
 
     return (
         <div>
-            <h3><EditableSpan title={title} onChange={exchangeTodolistTitle} />
-                <IconButton onClick={deleteTodoList}>
+            <h3><EditableSpan title={title} onChange={changeTodolistTitle} />
+                <IconButton onClick={removeTodoList}>
                     <Delete />
                 </IconButton>
             </h3>
-            <AddItemForm addItem={appendTask} />
+            <AddItemForm addItem={addTask} />
             <div>
                 {
                     tasksForTodoList.map(t => <Task
                             key={id}
                             task={t}
-                            removeTask={removeTask}
                             todolistId={id}
-                            changeTaskStatus={changeTaskStatus}
-                            changeTaskTitle={changeTaskTitle}
                         />)
                 }
             </div>

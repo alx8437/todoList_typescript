@@ -1,7 +1,7 @@
 import {v1} from 'uuid';
 import {
     addTodolistAC,
-    changeTodolistAC,
+    changeTodolistTitleAC,
     changeTodolistFilterAC, removeTodolistAC,
     todolistsReducer
 } from "./todolist-reducer";
@@ -38,7 +38,7 @@ test('correct todolist should be added', () => {
 
 test('correct todolist should change its name', () => {
     let newTodolistTitle = "New Todolist";
-    const endState = todolistsReducer(startState, changeTodolistAC(todolistId2, newTodolistTitle));
+    const endState = todolistsReducer(startState, changeTodolistTitleAC(todolistId2, newTodolistTitle));
 
     expect(endState[0].title).toBe("What to learn");
     expect(endState[1].title).toBe(newTodolistTitle);
