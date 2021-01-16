@@ -3,11 +3,12 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import Task from "./Tasks";
+
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {addTaskAC} from "./state/tasks-reduser";
 import {changeTodolistFilterAC, removeTodolistAC, changeTodolistTitleAC} from "./state/todolist-reducer";
+import Task from "./Task";
 
 
 export type TaskType = {
